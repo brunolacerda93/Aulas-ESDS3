@@ -15,6 +15,7 @@
 
     // Definindo tipos
 
+    typedef enum bool { false, true } bool;
     typedef char* string;
     typedef void* var;
 
