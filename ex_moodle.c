@@ -132,10 +132,45 @@ bool is_anagram(string str1, string str2) {
     return true;
 }
 
+//
+// Returns 1 if crescent, -1 if decrescent and 0 if not sorted
+//
+int is_sorted_type(int* array, const int size) {
+    bool crescent   = true;
+    bool decrescent = true;
+    bool is_equal   = true;
+
+    for (size_t i = 0; i < size-1; i++) {
+        if (array[i] != array[i+1]) {
+            is_equal = false;
+            break;
+        }
+    }
+    if (is_equal) return 1;
+
+    for (size_t i = 0; i < size-1; i++) {
+        if (array[i] > array[i+1]) {
+            crescent = false;
+            break;
+        }
+    }
+    if (crescent) return 1;
+    
+    for (size_t i = 0; i < size-1; i++) {
+        if (array[i] < array[i+1]) {
+            decrescent = false;
+            break;
+        }
+    }
+    if (decrescent) return -1;
+
+    return 0;
+}
+
 
 int main(int argc, char const *argv[]) {
+    // Exercício 6
     // sequencia();
-    // menu(SIZE);
 
     // Exercício 14
     char str1[] = "course the gerg";
@@ -145,6 +180,17 @@ int main(int argc, char const *argv[]) {
         puts("true");
     else
         puts("false");
+
+    // Exercício 11
+    int arr1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int arr2[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    int arr3[] = { 3, 9, 2, 7, 6, 1, 6, 4, 2 };
+    int arr4[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+
+    printf("arr1 -> %d\n", is_sorted_type(arr1, 9));
+    printf("arr2 -> %d\n", is_sorted_type(arr2, 9));
+    printf("arr3 -> %d\n", is_sorted_type(arr3, 9));
+    printf("arr4 -> %d\n", is_sorted_type(arr4, 9));
 
     return 0;
 }
