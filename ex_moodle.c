@@ -167,19 +167,26 @@ int is_sorted_type(int* array, const int size) {
     return 0;
 }
 
+//
+// Returns 1 if there's repetition, otherwise returns 0
+//
+int repeated_char(string str) {
+    size_t len = strlen(str);
+
+    for (size_t i = 0; i < len-1; i++) {
+        for (size_t j = i+1; j <= len; j++) {
+            if (str[i] == str[j])
+                return 1;
+        }
+    }
+    
+    return 0;
+}
+
 
 int main(int argc, char const *argv[]) {
     // Exercício 6
     // sequencia();
-
-    // Exercício 14
-    char str1[] = "course the gerg";
-    char str2[] = "het source ergg";
-
-    if (is_anagram(str1, str2))
-        puts("true");
-    else
-        puts("false");
 
     // Exercício 11
     int arr1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -191,6 +198,25 @@ int main(int argc, char const *argv[]) {
     printf("arr2 -> %d\n", is_sorted_type(arr2, 9));
     printf("arr3 -> %d\n", is_sorted_type(arr3, 9));
     printf("arr4 -> %d\n", is_sorted_type(arr4, 9));
+
+    // Exercício 14
+    char str1[] = "course the gerg";
+    char str2[] = "het source ergg";
+    char str3[] = "course the gerr";
+
+    if (is_anagram(str1, str2))
+        puts("true");
+    else
+        puts("false");
+
+    if (is_anagram(str2, str3))
+        puts("true");
+    else
+        puts("false");
+
+    // Exercício 15
+    printf("professor -> %d\n", repeated_char("professor"));
+    printf("belazurin -> %d\n", repeated_char("belazurin"));
 
     return 0;
 }
