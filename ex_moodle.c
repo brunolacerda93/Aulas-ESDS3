@@ -84,7 +84,7 @@ void remove_char(string str, char c) {
 //
 // Swaps two chars by address
 //
-void swap_char(string c1, string c2) {
+void swap_char(char *c1, char *c2) {
     char c = *c1;
     *c1 = *c2;
     *c2 = c;
@@ -183,6 +183,25 @@ int repeated_char(string str) {
     return 0;
 }
 
+//
+// Prints H = 1 + 1/2 + 1/3 + ... + 1/n and returns H
+//
+double harmonics(const unsigned int n) {
+    if (n == 0)
+        return 0.0;
+
+    double harmonic = 1.0;
+
+    printf("Harmonic of %d\n H = 1", n);
+
+    for (int i = 2; i <= n; i++) {
+        harmonic += (1/(double)i);
+        printf(" + 1/%d", i);
+    }
+    
+    return harmonic;
+}
+
 
 int main(int argc, char const *argv[]) {
     // Exercício 6
@@ -217,6 +236,12 @@ int main(int argc, char const *argv[]) {
     // Exercício 15
     printf("professor -> %d\n", repeated_char("professor"));
     printf("belazurin -> %d\n", repeated_char("belazurin"));
+
+    // Exercício 05
+    printf("\nH = %.2lf\n", harmonics(1));
+    printf("\nH = %.2lf\n", harmonics(2));
+    printf("\nH = %.2lf\n", harmonics(10));
+    printf("\nH = %.2lf\n", harmonics(23));
 
     return 0;
 }
