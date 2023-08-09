@@ -41,10 +41,8 @@ void matrixis() {
 int isPalindrome(string str) {
     size_t size = strlen(str);
 
-    size_t j = 0;
-
-    for (size_t i = size-1; i >= 0 && j < size; i--) {
-        if (str[i] != str[j++])
+    for (size_t i = size-1, j = 0; i >= 0 && j < size; i--, j++) {
+        if (str[i] != str[j])
             return 0;
     }
     
