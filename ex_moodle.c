@@ -279,81 +279,96 @@ unsigned int freq_vector(const int* vec, const size_t vec_size, const int x) {
 
 int main(int argc, char const *argv[]) {
     // Exercício 6
-    // sequencia();
+        puts("EXERCICIO 06");
+        // sequencia();
 
     // Exercício 11
-    int arr1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    int arr2[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-    int arr3[] = { 3, 9, 2, 7, 6, 1, 6, 4, 2 };
-    int arr4[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+        puts("\nEXERCICIO 11");
 
-    printf("arr1 -> %d\n", is_sorted_type(arr1, 9));
-    printf("arr2 -> %d\n", is_sorted_type(arr2, 9));
-    printf("arr3 -> %d\n", is_sorted_type(arr3, 9));
-    printf("arr4 -> %d\n", is_sorted_type(arr4, 9));
+        int arr1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        int arr2[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+        int arr3[] = { 3, 9, 2, 7, 6, 1, 6, 4, 2 };
+        int arr4[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+
+        printf("arr1 -> %d\n", is_sorted_type(arr1, 9));
+        printf("arr2 -> %d\n", is_sorted_type(arr2, 9));
+        printf("arr3 -> %d\n", is_sorted_type(arr3, 9));
+        printf("arr4 -> %d\n", is_sorted_type(arr4, 9));
 
     // Exercício 14
-    char str1[] = "course the gerg";
-    char str2[] = "het source ergg";
-    char str3[] = "course the gerr";
+        puts("\nEXERCICIO 14");
 
-    if (is_anagram(str1, str2))
-        puts("true");
-    else
-        puts("false");
+        char str1[] = "course the gerg";
+        char str2[] = "het source ergg";
+        char str3[] = "course the gerr";
 
-    if (is_anagram(str2, str3))
-        puts("true");
-    else
-        puts("false");
+        if (is_anagram(str1, str2))
+            puts("true");
+        else
+            puts("false");
+
+        if (is_anagram(str2, str3))
+            puts("true");
+        else
+            puts("false");
 
     // Exercício 15
-    printf("professor -> %d\n", repeated_char("professor"));
-    printf("belazurin -> %d\n", repeated_char("belazurin"));
+        puts("\nEXERCICIO 15");
+        printf("professor -> %d\n", repeated_char("professor"));
+        printf("belazurin -> %d\n", repeated_char("belazurin"));
 
     // Exercício 05
-    printf("\nH = %.2lf\n", harmonics(1));
-    printf("\nH = %.2lf\n", harmonics(2));
-    printf("\nH = %.2lf\n", harmonics(10));
-    printf("\nH = %.2lf\n", harmonics(23));
+        puts("\nEXERCICIO 05");
+        printf("\nH = %.2lf\n", harmonics(1));
+        printf("\nH = %.2lf\n", harmonics(2));
+        printf("\nH = %.2lf\n", harmonics(10));
+        printf("\nH = %.2lf\n", harmonics(23));
 
     // Exercício ..
-    eleitor(13);
-    eleitor(16);
-    eleitor(28);
-    eleitor(77);
+        puts("\nEXERCICIO ..");
+        eleitor(13);
+        eleitor(16);
+        eleitor(28);
+        eleitor(77);
 
     // Exercício ..
-    int n = 5;
-    printf("Fatorial de %2d! = %d\n", n, factorial(n));
-    n = 10;
-    printf("Fatorial de %2d! = %d\n", n, factorial(n));
+        puts("\nEXERCICIO ..");
+        int n = 5;
+        printf("Fatorial de %2d! = %d\n", n, factorial(n));
+        n = 10;
+        printf("Fatorial de %2d! = %d\n", n, factorial(n));
 
     // Exercício ..
-    for (size_t i = 19; i < 40; i++) {
-        printf("[%d] => |%d|\n", i, is_prime(i));
-    }
+        puts("\nEXERCICIO ..");
+        for (size_t i = 19; i < 40; i++) {
+            printf("[%d] => |%d|\n", i, is_prime(i));
+        }
     
     // Exercício ..
-    n = 5;
-    printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
-    n = 10;
-    printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
+        puts("\nEXERCICIO ..");
+        n = 5;
+        printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
+        n = 10;
+        printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
 
     // Exercício ..
-    int size = HUN_THOUSAND;
-    int* vetor = createArray(size);
+        puts("\nEXERCICIO ..");
+        
+        int size = HUN_THOUSAND;
+        int* vetor = createArray(size);
 
-    srand(time(NULL));
-    for (int i=0; i<size; i++) {
-        vetor[i] = rand() % 1000;
-    }
+        srand(time(NULL));
+        for (int i=0; i<size; i++) {
+            vetor[i] = rand() % 1000;
+        }
 
-    int elemento = rand() % 1000;
-    printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
-    
-    elemento = rand() % 1000;
-    printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
+        int elemento = rand() % 1000;
+        printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
+        
+        elemento = rand() % 1000;
+        printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
+
+        free(vetor);
 
     return 0;
 }
