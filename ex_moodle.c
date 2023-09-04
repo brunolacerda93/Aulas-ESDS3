@@ -202,6 +202,70 @@ double harmonics(const unsigned int n) {
     return harmonic;
 }
 
+//
+// Prints text based on the age inputed
+//
+void eleitor(const int idade) {
+    if (idade == 16 || idade == 17)
+        puts("Eleitor Facultativo");
+    else if (idade >= 18 && idade < 70)
+        puts("Eleitor Obrigatorio");
+    else
+        puts("Eleitor Dispensado");
+}
+
+//
+// Returns the factorial of the integer n
+//
+unsigned long factorial(const unsigned int n) {
+    unsigned long fat = 1L;
+    
+    for (size_t i = 2; i <= n; i++) {
+        fat *= i;
+    }
+
+    return fat;
+}
+
+//
+// Returns true if the integer n is prime
+//
+bool is_prime(const int n) {
+    for (size_t i = 2; i <= n*n; i++) {
+        if (n%i == 0)
+            return false;
+    }
+    
+    return true;
+}
+
+//
+// Returns the sum of factorials between 0 and the integer n
+//
+unsigned long sum_factorial(const unsigned int n) {
+    unsigned long s_fat = 1L;
+
+    for (size_t i = 2; i <= n; i++) {
+        s_fat += fatorial(i);
+    }
+
+    return s_fat;
+}
+
+//
+// Returns the frequency of the integer x in the vector vec
+//
+unsigned int freq_vector(const int* vec, const size_t vec_size, const int x) {
+    unsigned int freq = 0;
+    
+    for (size_t i = 0; i < vec_size; i++) {
+        if (vec[i] == x)
+            freq++;
+    }
+    
+    return freq;
+}
+
 
 int main(int argc, char const *argv[]) {
     // Exercício 6
