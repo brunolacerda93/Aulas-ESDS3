@@ -1,4 +1,5 @@
 #include "sorting.c"
+#include <math.h>
 
 //
 // Reallocates an array of integers into a new bigger array, copying the previous into the newer
@@ -206,12 +207,19 @@ double harmonics(const unsigned int n) {
 // Prints text based on the age inputed
 //
 void eleitor(const int idade) {
-    if (idade == 16 || idade == 17)
-        puts("Eleitor Facultativo");
-    else if (idade >= 18 && idade < 70)
-        puts("Eleitor Obrigatorio");
-    else
-        puts("Eleitor Dispensado");
+    // if (idade == 16 || idade == 17)
+    //     puts("Eleitor Facultativo");
+    // else if (idade >= 18 && idade < 70)
+    //     puts("Eleitor Obrigatorio");
+    // else
+    //     puts("Eleitor Dispensado");
+
+    switch (idade) {
+        case 16 :
+        case 17 :       puts("Eleitor Facultativo"); break;
+        case 18 ... 69: puts("Eleitor Obrigatorio"); break;
+        default :       puts("Eleitor Dispensado");  break;
+    }
 }
 
 //
@@ -231,7 +239,9 @@ unsigned long factorial(const unsigned int n) {
 // Returns true if the integer n is prime
 //
 bool is_prime(const int n) {
-    for (size_t i = 2; i <= n*n; i++) {
+    const int val = (int) sqrt((double) n);
+
+    for (size_t i = 2; i <= val; i++) {
         if (n%i == 0)
             return false;
     }
@@ -246,7 +256,7 @@ unsigned long sum_factorial(const unsigned int n) {
     unsigned long s_fat = 1L;
 
     for (size_t i = 2; i <= n; i++) {
-        s_fat += fatorial(i);
+        s_fat += factorial(i);
     }
 
     return s_fat;
@@ -306,6 +316,44 @@ int main(int argc, char const *argv[]) {
     printf("\nH = %.2lf\n", harmonics(2));
     printf("\nH = %.2lf\n", harmonics(10));
     printf("\nH = %.2lf\n", harmonics(23));
+
+    // Exercício ..
+    eleitor(13);
+    eleitor(16);
+    eleitor(28);
+    eleitor(77);
+
+    // Exercício ..
+    int n = 5;
+    printf("Fatorial de %2d! = %d\n", n, factorial(n));
+    n = 10;
+    printf("Fatorial de %2d! = %d\n", n, factorial(n));
+
+    // Exercício ..
+    for (size_t i = 19; i < 40; i++) {
+        printf("[%d] => |%d|\n", i, is_prime(i));
+    }
+    
+    // Exercício ..
+    n = 5;
+    printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
+    n = 10;
+    printf("Soma dos fatorias de %2d! = %d\n", n, sum_factorial(n));
+
+    // Exercício ..
+    int size = HUN_THOUSAND;
+    int* vetor = createArray(size);
+
+    srand(time(NULL));
+    for (int i=0; i<size; i++) {
+        vetor[i] = rand() % 1000;
+    }
+
+    int elemento = rand() % 1000;
+    printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
+    
+    elemento = rand() % 1000;
+    printf("O elemento %3d aparece %3d vezes\n", elemento, freq_vector(vetor, size, elemento));
 
     return 0;
 }
