@@ -59,11 +59,12 @@ void sequencia() {
     printf("Soma dos impares: %d\n", soma_impar);
     printf("Soma total      : %d\n", soma_total);
     
-    printf("The sequence: ");
+    printf("The sequence    : ");
     for (size_t i = 0; i < size; i++) {
         printf("%d ", seq[i]);
     }
 
+    puts("");
     free(seq);
 }
 
@@ -193,7 +194,7 @@ double harmonics(const unsigned int n) {
 
     double harmonic = 1.0;
 
-    printf("Harmonic of %d\n H = 1", n);
+    printf("\nHarmonic of %d\n H = 1", n);
 
     for (int i = 2; i <= n; i++) {
         harmonic += (1/(double)i);
@@ -290,10 +291,10 @@ int main(int argc, char const *argv[]) {
         int arr3[] = { 3, 9, 2, 7, 6, 1, 6, 4, 2 };
         int arr4[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6 };
 
-        printf("arr1 -> %d\n", is_sorted_type(arr1, 9));
-        printf("arr2 -> %d\n", is_sorted_type(arr2, 9));
-        printf("arr3 -> %d\n", is_sorted_type(arr3, 9));
-        printf("arr4 -> %d\n", is_sorted_type(arr4, 9));
+        printf("arr1 -> %2d\n", is_sorted_type(arr1, 9));
+        printf("arr2 -> %2d\n", is_sorted_type(arr2, 9));
+        printf("arr3 -> %2d\n", is_sorted_type(arr3, 9));
+        printf("arr4 -> %2d\n", is_sorted_type(arr4, 9));
 
     // Exercício 14
         puts("\nEXERCICIO 14");
