@@ -5,6 +5,7 @@
     // Definição de Constantes
 
     #define NOME_LEN 100
+    #define PRODUTOS "PRODUTOS"
     typedef unsigned int natural;
 
 //-------------------------------------------------------------------------------------------------------------//
@@ -178,7 +179,7 @@
 
         if (!NomeInput(input)) return;
 
-        Produto* aux = ProdutoPorCodigo(lista, (natural)input);
+        Produto* aux = ProdutoPorNome(lista, input);
 
         if (!aux) {
             puts("\nNao foi encontrado produto com o nome especificado...");
@@ -195,7 +196,7 @@
         Produto* produto = lista->primeiro;
         while (produto) {
             ExibeProduto(produto);
-            putchar("\n");
+            putchar('\n');
             produto = produto->proximo;
         }
     }
@@ -258,5 +259,122 @@
     }
 
     //
+    // Encapsula a inserção na Lista
+    //
+    void Insereproduto(Lista_de_Produtos* lista) {
+        if (!lista) return;
+
+        if (lista->tamanho >= lista->max) {
+            puts("\nLista Cheia!!!");
+            return;
+        }
+
+        InsereProdutoNalista(lista, NovoProduto(lista));
+    }
+
     //
     //
+    //
+
+//-------------------------------------------------------------------------------------------------------------//
+
+    // Manipulação de Arquivos
+
+    //
+    // Registra Produtos em um arquivo PRODUTOS
+    //
+    void PersistenciaProdutos(Lista_de_Produtos* lista) {
+        if (!lista) return;
+
+        FILE* file;
+        Produto* aux = lista->primeiro;
+
+        file = fopen(PRODUTOS, "wb");
+
+        if (!file) {
+            fprint_err(PRODUTOS);
+            return;
+        }
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            fwrite(aux, sizeof(Produto), 1, file);
+            aux = aux->proximo;
+        }
+
+        fclose(file);
+    }
+
+    //
+    // Lê o arquivo PRODUTOS e retorna uma lista de Produtos de tamanho padrão com os dados obtidos
+    //
+    Lista_de_Produtos* ReadProdutos() {
+        FILE* file;
+        Produto produto;
+        Lista_de_Produtos* lista = CriaListaProdutos(10);
+
+        file = fopen(PRODUTOS, "rb");
+        if (!file) {
+            fprint_err(PRODUTOS);
+            return lista;
+        }
+
+        fread(&produto, sizeof(Produto), 1, file);
+        while (!feof(file)) {
+            InsereProdutoNalista(lista, ClonaProduto(&produto));
+            fread(&produto, sizeof(Produto), 1, file);
+        }
+
+        fclose(file);
+        return lista;
+    }
+
+//-------------------------------------------------------------------------------------------------------------//
+
+    //
+    // Submenu de produtos
+    //
+    void MenuProdutos(Lista_de_Produtos* lista) {
+        int opc;
+
+        do { // hast
+            cleanScreen();
+
+            puts("=======================");
+            puts("ESTOQUE\n");
+            puts(" 1 - Cadastrar");
+            puts(" 2 - Exibir Um");
+            puts(" 3 - Exibir Todos");
+            puts(" 4 - Atualizar");
+            puts(" 5 - Remover");
+            puts(" 0 - Sair\n");
+            printf("Escolha: ");
+            opc = getchar(); clearBuffer();
+
+            switch (opc) {
+                case '1':      Insereproduto(lista); pause(); break;
+                case '2':                            pause(); break;
+                case '3': ExibeTodosProdutos(lista); pause(); break;
+                case '4':                                     break;
+                case '5':                            pause(); break;
+                case '0':                                     break;
+                default :    puts("\n INVALIDO!!!"); pause(); break;
+            }
+
+        } while (opc != '0');
+    }
+
+    //
+    // Apaga completamente uma lista de Produtos
+    //
+    void FreeEstoque(Lista_de_Produtos* lista) {
+        Produto* aux = lista->primeiro;
+        Produto* temp;
+
+        while (aux) {
+            temp = aux;
+            aux = aux->proximo;
+            free(temp);
+        }
+
+        free(lista);
+    }
