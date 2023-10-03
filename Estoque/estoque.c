@@ -331,7 +331,7 @@
     //
     // Encapsula a inserção na Lista
     //
-    void Insereproduto(Lista_de_Produtos* lista) {
+    void InsereProduto(Lista_de_Produtos* lista) {
         if (!lista) return;
 
         if (lista->tamanho >= lista->max) {
@@ -755,7 +755,7 @@
             opc = getchar(); clearBuffer();
 
             switch (opc) {
-                case '1':      Insereproduto(lista); pause(); break;
+                case '1':      InsereProduto(lista); pause(); break;
                 case '2':       TelaProdutos(lista);          break;
                 case '3': ExibeTodosProdutos(lista); pause(); break;
                 case '4':      ExibeOrdenado(lista); pause(); break;

@@ -62,7 +62,7 @@
     void     ExibeProdutoPorCodigo (Lista_de_Produtos*);
     void     ExibeProdutoPorNome   (Lista_de_Produtos*);
     void     ExibeTodosProdutos    (Lista_de_Produtos*);
-    void     Insereproduto         (Lista_de_Produtos*);
+    void     InsereProduto         (Lista_de_Produtos*);
     void     AtualizaProduto       (Lista_de_Produtos*);
     void     RemoveProduto         (Lista_de_Produtos*);
     void     InsereProdutoNalista  (Lista_de_Produtos*, Produto*);
