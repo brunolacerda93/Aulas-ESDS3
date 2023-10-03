@@ -5,6 +5,8 @@
     // Definição de Constantes
 
     #define NOME_LEN 100
+    #define GERAL 'g'
+    #define PREF 'p'
 
 //-------------------------------------------------------------------------------------------------------------//
 
@@ -14,6 +16,7 @@
 
         char nome[NOME_LEN];
         int  pref;
+        struct Cliente* prox;
 
     } Cliente;
 
@@ -29,12 +32,24 @@
 
     // Construtores
 
+    Cliente* CriaCliente();
+    Cliente* CriaClienteArgs(string, int);
+    Fila_Banco* CriaFilaBanco();
+
 //-------------------------------------------------------------------------------------------------------------//
 
     // Métodos úteis
 
+    Cliente* ClonaCliente(Cliente*);
+    bool NomeInput(string);
+
 //-------------------------------------------------------------------------------------------------------------//
 
-    // CRUD
+    // Tratamento das Filas
+
+    void Enfileirar(Fila_Banco*, Cliente*);
+    void InsereNaFila(Fila_Banco*, Fila_Banco*);
 
 //-------------------------------------------------------------------------------------------------------------//
+
+    void MenuBanco();
