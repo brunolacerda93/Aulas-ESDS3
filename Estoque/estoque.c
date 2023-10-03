@@ -323,13 +323,7 @@
             return;
         }
 
-        Produto* aux = lista->primeiro;
-
-        while (aux->proximo)
-            aux = aux->proximo;
-        
-        aux->proximo = produto;
-        
+        lista->ultimo->proximo = produto;
         lista->ultimo = produto;
         lista->tamanho++;
     }
