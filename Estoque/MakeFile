@@ -1,0 +1,3 @@
+all: ex_3-trabalho.c
+	gcc ex_3-trabalho.c -o program.out
+	./program.out
