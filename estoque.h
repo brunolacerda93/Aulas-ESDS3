@@ -137,6 +137,11 @@
     void bubbleSort_codigo(Lista_de_Produtos* lista);
 
     //
+    // Bubble Sort que ordena o Estoque por nome em ordem alfabética
+    //
+    void bubbleSort_nome(Lista_de_Produtos* lista);
+
+    //
     // Bubble Sort que ordena o Estoque por quantidade de forma crescente
     //
     void bubbleSort_qtde_c(Lista_de_Produtos* lista);

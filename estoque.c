@@ -427,6 +427,36 @@
     }
 
     //
+    // Bubble Sort que ordena o Estoque por nome em ordem alfabética
+    //
+    void bubbleSort_nome(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (strcmp(p1->nome, p2->nome)) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
     // Bubble Sort que ordena o Estoque por quantidade de forma crescente
     //
     void bubbleSort_qtde_c(Lista_de_Produtos* lista) {
@@ -570,7 +600,7 @@
 
             switch(opc) {
                 case '1':  bubbleSort_codigo(lista); break;
-                case '2': break;
+                case '2':    bubbleSort_nome(lista); break;
                 case '3':  bubbleSort_qtde_c(lista); break;
                 case '4':  bubbleSort_qtde_d(lista); break;
                 case '5': bubbleSort_preco_c(lista); break;
