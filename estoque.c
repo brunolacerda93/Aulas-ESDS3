@@ -1,31 +1,4 @@
-#include "tools.h"
-
-//-------------------------------------------------------------------------------------------------------------//
-
-    // Definição de Constantes
-
-    #define NOME_LEN 100
-    #define PRODUTOS "PRODUTOS"
-    typedef unsigned int natural;
-
-//-------------------------------------------------------------------------------------------------------------//
-
-    // Estrutura dos tipos
-
-    typedef struct Produto {
-        natural codigo;
-        char    nome [NOME_LEN];
-        natural quantidade;
-        double  preco;
-        struct  Produto* proximo;
-    } Produto;
-
-    typedef struct Lista_de_Produtos {
-        Produto* primeiro;
-        Produto* ultimo;
-        size_t   tamanho;
-        size_t   max;
-    } Lista_de_Produtos;
+#include "estoque.h"
 
 //-------------------------------------------------------------------------------------------------------------//
 
@@ -91,9 +64,9 @@
     // Exibe um Produto formatado para o console
     //
     void ExibeProduto(Produto* produto) {
-        printf("\n Codigo     : %2d",    produto->codigo);
+        printf("\n Codigo     : %02d",    produto->codigo);
         printf("\n Nome       : %s",     produto->nome);
-        printf("\n Quantidade : %3d",    produto->quantidade);
+        printf("\n Quantidade : %2d",    produto->quantidade);
         printf("\n Preco     R$ %5.2lf", produto->preco);
         puts("\n========================================");
     }
@@ -148,6 +121,38 @@
         } while (true);
     }
 
+    //
+    // Tela para administrar a exibição de um ou mais Produtos
+    //
+    void TelaProdutos(Lista_de_Produtos* lista) {
+        int opc;
+
+        do { // hast
+            cleanScreen();
+
+            puts("\nSelecione:");
+            puts(" Codigo     [c/C]");
+            puts(" Nome       [n/N]");
+            puts(" Quantidade [q/Q]");
+            puts(" Preco      [p/P]");
+            printf(" >> ");
+
+            opc = getchar(); clearBuffer();
+            if (opc == '0') return;
+
+            switch (opc) {
+                case 'c': case 'C': ExibeProdutoPorCodigo(lista); break;
+                case 'n': case 'N':   ExibeProdutoPorNome(lista); break;
+                case 'p': case 'P': break;
+                case 'q': case 'Q': break;
+                default : puts("\n INVALIDO!!!"); break;
+            }
+
+            pause();
+
+        } while(1);
+    }
+
 //-------------------------------------------------------------------------------------------------------------//
 
     // CRUD
@@ -194,6 +199,9 @@
     //
     void ExibeTodosProdutos(Lista_de_Produtos* lista) {
         Produto* produto = lista->primeiro;
+
+        printf("\nTamanho: %d\n", lista->tamanho);
+
         while (produto) {
             ExibeProduto(produto);
             putchar('\n');
@@ -273,8 +281,310 @@
     }
 
     //
+    // Atualiza as informações de um Produto com o codigo informado
     //
+    void AtualizaProduto(Lista_de_Produtos* lista) {
+        printf("\nDigite o codigo: ");
+        int cod = Int();
+
+        if (cod < 0) return;
+
+        Produto* aux = ProdutoPorCodigo(lista, (natural)cod);
+
+        if (!aux) {
+            puts("\nProduto nao encontrado...");
+            pause();
+            return;
+        }
+
+        int opc;
+        do { // hast
+    	    cleanScreen();
+            ExibeProduto(aux);
+
+            puts("O que deseja alterar?\n");
+            puts(" 1 - Nome");
+            puts(" 2 - Quantidade");
+            puts(" 3 - Preco");
+            puts(" 0 - Retornar");
+            printf("\nEscolha: ");
+            opc = getchar(); clearBuffer();
+
+            if (opc == '0') break;
+
+            if (opc < '1' || opc > '3') {
+                puts("\nINVALIDO!!!");
+                pause();
+                continue;
+            }
+
+            switch (opc) {
+                case '1': {
+                    string str = String(NOME_LEN);
+                    
+                    if (NomeInput(str))
+                        strcpy(aux->nome, str);
+                    
+                    free(str);
+                } break;
+                case '2': {
+                    printf("\nDigite a quantidade: ");
+                    int qtde = Int();
+
+                    if (qtde < 0) break;
+
+                    aux->quantidade = (natural)qtde;
+                } break;
+                case '3': {
+                    printf("\nDigite o preco: ");
+                    double preco = Double();
+
+                    if (preco < 0) break;
+
+                    aux->preco = preco;
+                } break;
+                default : break;
+            }
+
+        } while(1);
+    }
+    
     //
+    // Remove um produto com o codigo informado
+    //
+    void RemoveProduto(Lista_de_Produtos* lista) {
+        printf("\nDigite o codigo: ");
+        int cod = Int();
+
+        if (cod < 0) return;
+
+        Produto* anterior = NULL;
+        Produto* atual    = lista->primeiro;
+
+        while (atual && atual->codigo != cod) {
+            anterior = atual;
+            atual = atual->proximo;
+        }
+
+        if ((!anterior && atual->codigo != cod) || !atual) {
+            puts("\nNao existe produto com o codigo informado no sistema...");
+            return;
+        }
+
+        ExibeProduto(atual);
+        printf("\nTem certeza? [s/S]: ");
+        int opc = getchar(); clearBuffer();
+
+        if (opc != 's' && opc != 'S')
+            return;
+        
+        if (!anterior) {
+            Produto* temp = lista->primeiro;
+            lista->primeiro = lista->primeiro->proximo;
+            free(temp);
+        }
+        else {
+            anterior->proximo = atual->proximo;
+            free(atual);
+        }
+
+        lista->tamanho--;
+        puts("\n\t Removido!");
+    }
+
+//-------------------------------------------------------------------------------------------------------------//
+
+    // Ordenação
+
+    //
+    // Bubble Sort que ordena o Estoque por codigo de forma crescente
+    //
+    void bubbleSort_codigo(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (p1->codigo > p2->codigo) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
+    // Bubble Sort que ordena o Estoque por quantidade de forma crescente
+    //
+    void bubbleSort_qtde_c(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (p1->quantidade > p2->quantidade) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
+    // Bubble Sort que ordena o Estoque por quantidade de forma decrescente
+    //
+    void bubbleSort_qtde_d(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (p1->quantidade < p2->quantidade) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
+    // Bubble Sort que ordena o Estoque por preco de forma crescente
+    //
+    void bubbleSort_preco_c(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (p1->preco > p2->preco) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
+    // Bubble Sort que ordena o Estoque por preco de forma decrescente
+    //
+    void bubbleSort_preco_d(Lista_de_Produtos* lista) {
+        Produto** head;
+        bool swapped;
+
+        for (size_t i = 0; i < lista->tamanho; i++) {
+            head = &lista->primeiro;
+            swapped = false;
+
+            for (size_t j = 0; j < lista->tamanho - i - 1; j++) {
+                Produto* p1 = *head;
+                Produto* p2 = p1->proximo;
+
+                if (p1->preco < p2->preco) {
+                    Produto* temp = p2->proximo;
+                    p2->proximo = p1;
+                    p1->proximo = temp;
+                    *head = p2;
+                    swapped = true;
+                }
+
+                head = &(*head)->proximo;
+            }
+
+            if (!swapped) break;
+        }
+    }
+
+    //
+    // Encapsula a ordenação
+    //
+    void ExibeOrdenado(Lista_de_Produtos* lista) {
+        int opc;
+
+        do { // hast
+            cleanScreen();
+
+            puts("\nOrdernar por:");
+            puts(" 1 - Codigo");
+            puts(" 2 - Nome");
+            puts(" 3 - Quantidade Crescente");
+            puts(" 4 - Quantidade Decrescente");
+            puts(" 5 - Preco Crescente");
+            puts(" 6 - Preco Decrescente");
+            puts(" 0 - Retorna");
+            printf(" >> ");
+
+            opc = getchar(); clearBuffer();
+            if (opc == '0') return;
+
+            switch(opc) {
+                case '1':  bubbleSort_codigo(lista); break;
+                case '2': break;
+                case '3':  bubbleSort_qtde_c(lista); break;
+                case '4':  bubbleSort_qtde_d(lista); break;
+                case '5': bubbleSort_preco_c(lista); break;
+                case '6': bubbleSort_preco_d(lista); break;
+                case '0': return;
+                default : puts("\n INVALIDO!!!"); pause(); continue;
+            }
+
+            ExibeTodosProdutos(lista);
+
+            pause();
+
+        } while(1);
+    }
 
 //-------------------------------------------------------------------------------------------------------------//
 
@@ -296,7 +606,7 @@
             return;
         }
 
-        for (size_t i = 0; i < lista->tamanho; i++) {
+        while (aux) {
             fwrite(aux, sizeof(Produto), 1, file);
             aux = aux->proximo;
         }
@@ -320,6 +630,7 @@
 
         fread(&produto, sizeof(Produto), 1, file);
         while (!feof(file)) {
+            if (lista->tamanho >= lista->max) lista->max = lista->tamanho;
             InsereProdutoNalista(lista, ClonaProduto(&produto));
             fread(&produto, sizeof(Produto), 1, file);
         }
@@ -344,23 +655,43 @@
             puts(" 1 - Cadastrar");
             puts(" 2 - Exibir Um");
             puts(" 3 - Exibir Todos");
-            puts(" 4 - Atualizar");
-            puts(" 5 - Remover");
+            puts(" 4 - Ordenar");
+            puts(" 5 - Atualizar");
+            puts(" 6 - Remover");
             puts(" 0 - Sair\n");
             printf("Escolha: ");
             opc = getchar(); clearBuffer();
 
             switch (opc) {
                 case '1':      Insereproduto(lista); pause(); break;
-                case '2':                            pause(); break;
+                case '2':       TelaProdutos(lista);          break;
                 case '3': ExibeTodosProdutos(lista); pause(); break;
-                case '4':                                     break;
-                case '5':                            pause(); break;
-                case '0':                                     break;
+                case '4':      ExibeOrdenado(lista); pause(); break;
+                case '5':    AtualizaProduto(lista);          break;
+                case '6':      RemoveProduto(lista); pause(); break;
+                case '0':       opc = LogOff(lista); pause(); break;
                 default :    puts("\n INVALIDO!!!"); pause(); break;
             }
 
         } while (opc != '0');
+    }
+
+    //
+    // Breve Menu para salvar ou não as alterações
+    //
+    int LogOff(Lista_de_Produtos* lista) {
+        puts("\nDeseja salvar as alteracoes?");
+        puts("Digite qualquer tecla para voltar");
+        puts("   1 = SIM  ||  0 = NAO");
+        printf(" >> ");
+        int opc = getchar(); clearBuffer();
+
+        if (opc == '1') {
+            PersistenciaProdutos(lista);
+            return '0';
+        }
+
+        return opc;
     }
 
     //
