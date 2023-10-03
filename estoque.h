@@ -48,7 +48,7 @@
     //
     // Retorna uma Lista de Produtos
     //
-    Lista_de_Produtos* CriaListaProdutos(size_t max);
+    Lista_de_Produtos* CriaListaProdutos();
 
     //
     // Retorna uma Lista de Produtos com tamanho máximo definido
@@ -73,6 +73,16 @@
     // Retorna um ponteiro para o Produto com o nome passado, ou NULL
     //
     Produto* ProdutoPorNome(Lista_de_Produtos* lista, string nome);
+
+    //
+    // Exibe uma lista de Produtos com quantidade menor ou igual à informada
+    //
+    void ExibeProdutosPorQtde(Lista_de_Produtos* lista);
+
+    //
+    // Exibe uma lista de Produtos com preço menor ou igual ao informado
+    //
+    void ExibeProdutosPorPreco(Lista_de_Produtos* lista);
 
     //
     // Retorna uma cópia profunda de um Produto

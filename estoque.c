@@ -159,8 +159,8 @@
             switch (opc) {
                 case 'c': case 'C': ExibeProdutoPorCodigo(lista); break;
                 case 'n': case 'N':   ExibeProdutoPorNome(lista); break;
-                case 'p': case 'P': break;
-                case 'q': case 'Q': break;
+                case 'q': case 'Q':  ExibeProdutosPorQtde(lista); break;
+                case 'p': case 'P': ExibeProdutosPorPreco(lista); break;
                 default : puts("\n INVALIDO!!!"); break;
             }
 
@@ -180,7 +180,7 @@
         printf("\nDigite o codigo: ");
         int input = Int();
 
-        if (input < 0) return;
+        if (input <= 0) return;
 
         Produto* aux = ProdutoPorCodigo(lista, (natural)input);
 
@@ -211,6 +211,58 @@
     }
 
     //
+    // Exibe uma lista de Produtos com quantidade menor ou igual à informada
+    //
+    void ExibeProdutosPorQtde(Lista_de_Produtos* lista) {
+        printf("\nDigite a quantidade: ");
+        int input = Int();
+
+        if (input <= 0) return;
+
+        Lista_de_Produtos* filtrada = CriaListaProdutos(lista->tamanho);
+
+        bubbleSort_qtde_c(lista);
+
+        Produto* aux = lista->primeiro;
+
+        while (aux) {
+            if (aux->quantidade <= (natural)input)
+                InsereProdutoNalista(filtrada, ClonaProduto(aux));
+            aux = aux->proximo;
+        }
+
+        ExibeTodosProdutos(filtrada);
+
+        FreeEstoque(filtrada);
+    }
+
+    //
+    // Exibe uma lista de Produtos com preço menor ou igual ao informado
+    //
+    void ExibeProdutosPorPreco(Lista_de_Produtos* lista) {
+        printf("\nDigite o preco: ");
+        double input = Double();
+
+        if (input <= 0) return;
+
+        Lista_de_Produtos* filtrada = CriaListaProdutos(lista->tamanho);
+
+        bubbleSort_preco_c(lista);
+
+        Produto* aux = lista->primeiro;
+
+        while (aux) {
+            if (aux->preco <= input)
+                InsereProdutoNalista(filtrada, ClonaProduto(aux));
+            aux = aux->proximo;
+        }
+
+        ExibeTodosProdutos(filtrada);
+
+        FreeEstoque(filtrada);
+    }
+
+    //
     // Exibe toda uma Lista de Produtos
     //
     void ExibeTodosProdutos(Lista_de_Produtos* lista) {
@@ -236,7 +288,7 @@
         printf("\nDigite o codigo: ");
         int cod = Int();
 
-        if (cod < 0) return NULL;
+        if (cod <= 0) return NULL;
 
         if (ProdutoPorCodigo(lista, (natural)cod)) {
             puts("\nO codigo informado ja se encontra cadastrado no sistema...");
@@ -248,7 +300,7 @@
         printf("\nDigite a quantidade: ");
         int qtde = Int();
 
-        if (qtde < 0) return NULL;
+        if (qtde <= 0) return NULL;
 
         printf("\nDigite o preco: ");
         double preco = Double();
