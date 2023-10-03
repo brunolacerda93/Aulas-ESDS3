@@ -509,7 +509,7 @@
                 Produto* p1 = *head;
                 Produto* p2 = p1->proximo;
 
-                if (strcmp(p1->nome, p2->nome)) {
+                if (strcmp(p1->nome, p2->nome) > 0) {
                     Produto* temp = p2->proximo;
                     p2->proximo = p1;
                     p1->proximo = temp;
