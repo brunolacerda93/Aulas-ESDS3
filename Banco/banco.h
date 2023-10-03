@@ -4,9 +4,26 @@
 
     // Definição de Constantes
 
+    #define NOME_LEN 100
+
 //-------------------------------------------------------------------------------------------------------------//
 
     // Estrutura dos tipos
+
+    typedef struct Cliente {
+
+        char nome[NOME_LEN];
+        int  pref;
+
+    } Cliente;
+
+    typedef struct Fila_Banco {
+
+        Cliente* primeiro;
+        Cliente* ultimo;
+        size_t   tamanho;
+
+    } Fila_Banco;
 
 //-------------------------------------------------------------------------------------------------------------//
 
@@ -21,7 +38,3 @@
     // CRUD
 
 //-------------------------------------------------------------------------------------------------------------//
-
-    //
-    // Subemnu de produtos
-    //
