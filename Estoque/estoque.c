@@ -728,7 +728,7 @@
 
         fread(&produto, sizeof(Produto), 1, file);
         while (!feof(file)) {
-            if (lista->tamanho >= lista->max) lista->max = lista->tamanho;
+            if (lista->tamanho == lista->max) lista->max++;
             InsereProdutoNalista(lista, ClonaProduto(&produto));
             fread(&produto, sizeof(Produto), 1, file);
         }
