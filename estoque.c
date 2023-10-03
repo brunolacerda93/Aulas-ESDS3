@@ -43,7 +43,23 @@
     //
     // Retorna uma Lista de Produtos
     //
-    Lista_de_Produtos* CriaListaProdutos(size_t max) {
+    Lista_de_Produtos* CriaListaProdutos() {
+        Lista_de_Produtos* lista = (Lista_de_Produtos *) calloc(1, sizeof(Lista_de_Produtos));
+
+        if (!lista) return NULL;
+
+        lista->primeiro = NULL;
+        lista->ultimo   = NULL;
+        lista->tamanho  = 0;
+        lista->max      = DEFAULT_SIZE;
+
+        return lista;
+    }
+
+    //
+    // Retorna uma Lista de Produtos com tamanho máximo definido
+    //
+    Lista_de_Produtos* CriaListaProdutosArgs(size_t max) {
         Lista_de_Produtos* lista = (Lista_de_Produtos *) calloc(1, sizeof(Lista_de_Produtos));
 
         if (!lista) return NULL;
@@ -650,7 +666,7 @@
     Lista_de_Produtos* ReadProdutos() {
         FILE* file;
         Produto produto;
-        Lista_de_Produtos* lista = CriaListaProdutos(10);
+        Lista_de_Produtos* lista = CriaListaProdutos();
 
         file = fopen(PRODUTOS, "rb");
         if (!file) {

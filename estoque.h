@@ -6,6 +6,7 @@
 
     #define NOME_LEN 100
     #define PRODUTOS "PRODUTOS"
+    #define DEFAULT_SIZE 10
     typedef unsigned int natural;
 
 //-------------------------------------------------------------------------------------------------------------//
@@ -48,6 +49,11 @@
     // Retorna uma Lista de Produtos
     //
     Lista_de_Produtos* CriaListaProdutos(size_t max);
+
+    //
+    // Retorna uma Lista de Produtos com tamanho máximo definido
+    //
+    Lista_de_Produtos* CriaListaProdutosArgs(size_t max);
 
 //-------------------------------------------------------------------------------------------------------------//
 
