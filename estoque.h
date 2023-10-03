@@ -137,6 +137,26 @@
     void bubbleSort_codigo(Lista_de_Produtos* lista);
 
     //
+    // Bubble Sort que ordena o Estoque por quantidade de forma crescente
+    //
+    void bubbleSort_qtde_c(Lista_de_Produtos* lista);
+
+    //
+    // Bubble Sort que ordena o Estoque por quantidade de forma decrescente
+    //
+    void bubbleSort_qtde_d(Lista_de_Produtos* lista);
+
+    //
+    // Bubble Sort que ordena o Estoque por preco de forma crescente
+    //
+    void bubbleSort_preco_c(Lista_de_Produtos* lista);
+
+    //
+    // Bubble Sort que ordena o Estoque por preco de forma decrescente
+    //
+    void bubbleSort_preco_d(Lista_de_Produtos* lista);
+
+    //
     // Encapsula a ordenação
     //
     void ExibeOrdenado(Lista_de_Produtos* lista);
