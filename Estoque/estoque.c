@@ -268,7 +268,7 @@
     void ExibeTodosProdutos(Lista_de_Produtos* lista) {
         Produto* produto = lista->primeiro;
 
-        printf("\nTamanho: %d\n", lista->tamanho);
+        printf("\nTamanho: %ld\n", lista->tamanho);
 
         while (produto) {
             ExibeProduto(produto);
