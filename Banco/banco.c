@@ -241,6 +241,10 @@
             }
 
         } while (opc != '0');
+
+        FreeFila(fila);
+        FreeFila(fila_geral);
+        FreeFila(fila_pref);
     }
 
     //
