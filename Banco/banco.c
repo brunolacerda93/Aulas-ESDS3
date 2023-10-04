@@ -53,12 +53,12 @@
     // Métodos úteis
 
     //
-    //
+    // Exibe uma Fila de Clientes
     //
     void ExibeFila(Fila_Banco* fila) {
         Cliente* aux = fila->primeiro;
 
-        if (!aux) puts("vazia");
+        if (!aux) printf("vazia");
 
         while (aux) {
             printf("> %s ", aux->nome);
@@ -126,6 +126,7 @@
         do { // hast
             cleanScreen();
 
+            printf("Cliente: %s\n\n", nome);
             puts("Preferencial [p/P]");
             puts("Geral        [g/G]");
             printf(" >> ");
@@ -133,13 +134,13 @@
             int opc = getchar(); clearBuffer();
 
             switch (opc) {
-                case 'p': case 'P': Enfileirar(fila_pref,  CriaClienteArgs(nome, 'p')); break;
-                case 'g': case 'G': Enfileirar(fila_geral, CriaClienteArgs(nome, 'g')); break;
+                case 'p': case 'P': Enfileirar(fila_pref,  CriaClienteArgs(nome, PREF));  return;
+                case 'g': case 'G': Enfileirar(fila_geral, CriaClienteArgs(nome, GERAL)); return;
                 case '0': return;
-                default : puts("\n INVALIDO!!!"); pause(); continue;
+                default : puts("\n INVALIDO!!!"); pause(); break;
             }
 
-        } while (0);
+        } while (1);
     }
 
     //
@@ -171,6 +172,36 @@
         return fila;
     }
 
+    //
+    // Remove o primeiro elemento da Fila
+    //
+    int Desenfilerar(Fila_Banco* fila) {
+        Cliente* temp = fila->primeiro;
+        int pref = temp->pref;
+
+        fila->primeiro = fila->primeiro->prox;
+
+        free(temp);
+
+        fila->tamanho--;
+
+        return pref;
+    }
+
+    //
+    // Administra a remoção na fila
+    //
+    void RemoveDaFila(Fila_Banco* fila, Fila_Banco* fila_geral, Fila_Banco* fila_pref) {
+        if (!fila->primeiro) return;
+
+        printf("\n%s esta em atendimento\n", fila->primeiro->nome);
+
+        int pref = Desenfilerar(fila);
+
+        if (pref == PREF)  Desenfilerar(fila_pref);
+        if (pref == GERAL) Desenfilerar(fila_geral);
+    }
+
 //-------------------------------------------------------------------------------------------------------------//
 
     //
@@ -179,8 +210,7 @@
     void MenuBanco() {
         Fila_Banco* fila_geral = CriaFilaBanco();
         Fila_Banco* fila_pref  = CriaFilaBanco();
-
-        Fila_Banco* fila;
+        Fila_Banco* fila       = CriaFilaBanco();
         
         int opc;
 
@@ -191,7 +221,6 @@
             puts("BANCO\n");
             printf("Fila ");
 
-            fila = FilaAtendimento(fila_geral, fila_pref);
             ExibeFila(fila);
             
             puts(" 1 - Entrar na Fila");
@@ -201,11 +230,31 @@
             opc = getchar(); clearBuffer();
 
             switch (opc) {
-                case '1': InsereNaFila(fila_geral, fila_pref); pause(); break;
-                case '2':
-                case '0': break;
-                default : puts("\n INVALIDO!!!"); break;
+                case '1': {
+                    InsereNaFila(fila_geral, fila_pref);
+                    FreeFila(fila);
+                    fila = FilaAtendimento(fila_geral, fila_pref);
+                } break;
+                case '2': RemoveDaFila(fila, fila_geral, fila_pref); pause(); break;
+                case '0': pause(); break;
+                default : puts("\n INVALIDO!!!"); pause(); break;
             }
 
         } while (opc != '0');
+    }
+
+    //
+    // Apaga completamente uma fila de Clientes
+    //
+    void FreeFila(Fila_Banco* fila) {
+        Cliente* aux = fila->primeiro;
+        Cliente* temp;
+
+        while (aux) {
+            temp = aux;
+            aux = aux->prox;
+            free(temp);
+        }
+
+        free(fila);
     }

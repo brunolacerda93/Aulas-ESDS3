@@ -40,6 +40,7 @@
 
     // Métodos úteis
 
+    void ExibeFila(Fila_Banco*);
     Cliente* ClonaCliente(Cliente*);
     bool NomeInput(string);
 
@@ -47,9 +48,13 @@
 
     // Tratamento das Filas
 
+    int Desenfilerar(Fila_Banco*);
     void Enfileirar(Fila_Banco*, Cliente*);
     void InsereNaFila(Fila_Banco*, Fila_Banco*);
+    Fila_Banco* FilaAtendimento(Fila_Banco*, Fila_Banco*);
+    void RemoveDaFila(Fila_Banco*, Fila_Banco*, Fila_Banco*);
 
 //-------------------------------------------------------------------------------------------------------------//
 
     void MenuBanco();
+    void FreeFila(Fila_Banco*);
