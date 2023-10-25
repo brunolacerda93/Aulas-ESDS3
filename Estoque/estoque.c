@@ -20,9 +20,9 @@
     //
     // Retorna um Produto preenchido
     //
-    Produto* CriaProdutoArgs(natural cod,
+    Produto* CriaProdutoArgs(uint   cod,
                              string nome,
-                             natural qtde,
+                             uint   qtde,
                              double preco) {
         
         Produto* produto = (Produto *) calloc(1, sizeof(Produto));
@@ -90,7 +90,7 @@
     //
     // Retorna um ponteiro para o Produto com o código passado, ou NULL
     //
-    Produto* ProdutoPorCodigo(Lista_de_Produtos* lista, natural cod) {
+    Produto* ProdutoPorCodigo(Lista_de_Produtos* lista, int cod) {
         Produto* aux = lista->primeiro;
         while (aux) {
             if (aux->codigo == cod)
@@ -182,7 +182,7 @@
 
         if (input <= 0) return;
 
-        Produto* aux = ProdutoPorCodigo(lista, (natural)input);
+        Produto* aux = ProdutoPorCodigo(lista, input);
 
         if (!aux) {
             puts("\nNao foi encontrado produto com o codigo especificado...");
@@ -226,7 +226,7 @@
         Produto* aux = lista->primeiro;
 
         while (aux) {
-            if (aux->quantidade <= (natural)input)
+            if (aux->quantidade <= input)
                 InsereProdutoNalista(filtrada, ClonaProduto(aux));
             aux = aux->proximo;
         }
@@ -290,7 +290,7 @@
 
         if (cod <= 0) return NULL;
 
-        if (ProdutoPorCodigo(lista, (natural)cod)) {
+        if (ProdutoPorCodigo(lista, cod)) {
             puts("\nO codigo informado ja se encontra cadastrado no sistema...");
             return NULL;
         }
@@ -307,7 +307,7 @@
 
         if (preco < 0) return NULL;
 
-        return CriaProdutoArgs((natural)cod, nome, (natural)qtde, preco);
+        return CriaProdutoArgs((uint)cod, nome, (uint)qtde, preco);
     }
 
     //
@@ -351,7 +351,7 @@
 
         if (cod < 0) return;
 
-        Produto* aux = ProdutoPorCodigo(lista, (natural)cod);
+        Produto* aux = ProdutoPorCodigo(lista, cod);
 
         if (!aux) {
             puts("\nProduto nao encontrado...");
@@ -395,7 +395,7 @@
 
                     if (qtde < 0) break;
 
-                    aux->quantidade = (natural)qtde;
+                    aux->quantidade = (uint)qtde;
                 } break;
                 case '3': {
                     printf("\nDigite o preco: ");

@@ -8,19 +8,17 @@
     #define PRODUTOS "PRODUTOS"
     #define DEFAULT_SIZE 10
     
-    typedef unsigned int natural;
-
 //-------------------------------------------------------------------------------------------------------------//
 
     // Estrutura dos tipos
 
     typedef struct Produto {
 
-        natural codigo;
-        char    nome [NOME_LEN];
-        natural quantidade;
-        double  preco;
-        struct  Produto* proximo;
+        uint   codigo;
+        char   nome [NOME_LEN];
+        uint   quantidade;
+        double preco;
+        struct Produto* proximo;
 
     } Produto;
 
@@ -38,7 +36,7 @@
     // Construtores
 
     Produto*           CriaProduto();
-    Produto*           CriaProdutoArgs(natural, string, natural, double);
+    Produto*           CriaProdutoArgs(uint, string, uint, double);
     Lista_de_Produtos* CriaListaProdutos();
     Lista_de_Produtos* CriaListaProdutosArgs(size_t);
 
@@ -53,7 +51,7 @@
     void     ExibeProdutosPorPreco (Lista_de_Produtos*);
     Produto* ClonaProduto          (Produto*);
     Produto* ProdutoPorNome        (Lista_de_Produtos*, string);
-    Produto* ProdutoPorCodigo      (Lista_de_Produtos*, natural);
+    Produto* ProdutoPorCodigo      (Lista_de_Produtos*, int);
 
 //-------------------------------------------------------------------------------------------------------------//
 
