@@ -76,12 +76,12 @@
   //
   // Pausa e espera um input
   //
-  void pause() { puts("\nPressione <enter> para continuar... "); getchar(); }
+  void pause() { fputs("\nPressione <enter> para continuar... ", stdout); getchar(); }
 
   //
   // Limpa a tela do console
   //
-  void cleanScreen() { printf("\e[1;1H\e[2J"); }
+  void cleanScreen() { fputs("\e[1;1H\e[2J", stdout); }
 
   //
   // Retorna um ponteiro para uma string vazia do tamanho passado como argumento
@@ -91,8 +91,9 @@
   //
   // Troca o conteúdo de dois ponteiros
   //
-  void swap_void(var n1, var n2, size_t size) {
-    string temp = String(size);
+  void
+  swap_void(var n1, var n2, size_t size) {
+    var temp = calloc(1, size);
 
     memcpy(temp, n1, size);
     memcpy(n1,   n2, size);
@@ -104,7 +105,8 @@
   //
   // Troca dois inteiros por endereço
   //
-  void swap(int* n1, int* n2) {
+  void
+  swap(int* n1, int* n2) {
     int temp;
     temp = *n1;
     *n1  = *n2;
@@ -114,7 +116,8 @@
   //
   // Troca dois inteiros por endereço "inline"
   //
-  static __attribute__((__always_inline__)) inline void swap_inline(int* n1, int* n2) {
+  static __attribute__((__always_inline__)) inline void
+  swap_inline(int* n1, int* n2) {
     int temp;
     temp = *n1;
     *n1  = *n2;
@@ -122,25 +125,27 @@
   }
 
   //
-  // Retorna 1 se a hora é válida
+  // Retorna true se a hora é válida
   //
-  int validateTime(const int hour, const int min, const int sec) {
+  bool
+  isValidTime(const int hour, const int min, const int sec) {
     if (hour < 0 || hour > 24)
-      return 0;
+      return false;
 
     if (min < 0 || min > 59)
-      return 0;
+      return false;
 
     if (sec < 0 || sec > 59)
-      return 0;
+      return false;
 
-    return 1;
+    return true;
   }
 
   //
   // Captura a entrada de um inteiro
   //
-  int Int() {
+  int
+  Int() {
     int num  = 0;
     int sign = 1;
     int c;
@@ -159,7 +164,8 @@
   //
   // Captura a entrada de um double
   //
-  double Double() {
+  double
+  Double() {
     char input[100];
     fgets(input, 100, stdin);
 
@@ -169,7 +175,8 @@
   //
   // Formata o CPF para exibição
   //
-  void PrintCPF(string cpf) {
+  void
+  PrintCPF(string cpf) {
     size_t i = 0;
 
     while (cpf[i] != '\0') {
@@ -186,7 +193,8 @@
   //
   // Formata a Placa do Veículo para exibição
   //
-  void PrintPlaca(string placa) {
+  void
+  PrintPlaca(string placa) {
     size_t i = 0;
 
     while (placa[i] != '\0') {
@@ -198,12 +206,33 @@
   //
   // Exibe a mensagem de erro no Console
   //
-  void fprint_err(string Filename) {
+  void
+  fprint_err(string Filename) {
     string error = String(50);
     strcat(error, FERROR);
     strcat(error, Filename);
     perror(error);
     free(error);
+  }
+
+  //
+  // Algoritmo utilizado no jogo Quake 3 para o cálculo do inverso da raiz quadrada de um número
+  //
+  float
+  fast_inverse_sqrt(float number) {
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;
+
+    x2 = number * 0.5F;
+    y = number;
+    i = * (long *) &y;
+    i = 0x5f3759df - (i >> 1);
+    y = * (float *) &i;
+    y = y * (threehalfs - ( x2 * y * y ));  // can be repeated N times for more precision
+    y = y * (threehalfs - ( x2 * y * y ));  // two repetitions already reach float's maximum precision
+
+    return y;
   }
 
 #endif
